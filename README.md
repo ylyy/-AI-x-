@@ -23,23 +23,37 @@ https://aistudio.baidu.com/aistudio/competition/detail/78
 本次比赛要求选手基于少量有标签的数据训练模型，使分类网络具有目标定位能力，实现半监督目标定位任务。每- -位参赛选手仅可以使用ImageNet大型视觉识别竞赛(LSVRC)的训练集图像作为训练数据，其中有标签的训练数据仅可以使用大赛组委会提供的像素级标注。
 本次比赛项目的目录结构如下
 
-main.ipnb:运行主代码的notebook文件
+main.ipynb:运行主代码的notebook文件
 
 data:比赛数据集
     -dataxxxxx:
           -dataset.zip #这个是压缩包的训练集
          -B榜测试数据集.zip
-
-    -image #dataset.zip 解压后产生
-    -mask #dataset.zip 解压后产生
-    -test_image #dataset.zip 解压后产生
+    比赛数据集
+    训练数据集 包括50,000幅像素级有标注的图像，共包含500个类，每个类100幅图像；
+    A榜测试数据集 包括11,878幅无标注的图像；
+    B榜测试数据集 包括10,989幅无标注的图像。
+    备注： 所有图像均来自于ImageNet数据集。
 
 运行完程序后会出现新的文件夹
+
+train.txt:处理好的用于paddleseg训练的训练集图片路径
+val.txt:处理好的用于paddleseg训练的验证集图片路径
+test.txt:处理好的用于paddleseg训练的预测图片路径
 
 paddleseg：从paddle下载的图像分割套件
 
 ocrnet.yml:训练参数的配置文件
 
-output:最终提交的的预测图
+output:最终提交的的预测图结果
 
 本项目最终B榜成绩0.764
+一开始使用了deeplabV3架构的resnet101骨干网络来预测得到了一个基础0.74的成绩，后续选用了paddle推出的高精度分割预测模型ocrnet，其采用的是HRnet48网络，提高了预测成绩。
+参数调优：
+提升最高的应该就是使用了Diceloss替换了crossentryLoss，由于其更加贴近评价指标IOU，其在精度上提升了两个点
+其次使用了一些数据增广方法也提升了一个点左右，具体介绍在main.ipynb有介绍
+:-(((((((((((((((((((((((((((((((((((((((
+其实最后预测的时候可以数据增广明显提高最终成绩的，但。。。。。我没来及提交。。。。只有21名。。。一开始是第七名。。。哎
+
+运行环境在TeslaV100 32G现存环境中运行20个小时得到最终较好的预测参数
+
