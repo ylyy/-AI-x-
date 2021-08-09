@@ -1,6 +1,7 @@
 paddlepaddle
 paddlehub
-visualdl
 paddleseg
-paddlenlp
-paddleocr
+pyyaml >= 5.1
+visualdl >= 2.0.0
+scipy
+opencv-python
